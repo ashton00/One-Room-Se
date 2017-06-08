@@ -1,0 +1,45 @@
+{
+  "name": "one-room-se",
+  "version": "1.0.0",
+  "description": "server side for One room",
+  "private": true,
+  "dependencies": {
+    "egg": "^1.0.0",
+    "egg-mysql": "^3.0.0",
+    "egg-redis": "^1.0.1",
+    "egg-session": "^2.1.1",
+    "morgan": "^1.8.1"
+  },
+  "devDependencies": {
+    "autod": "^2.7.1",
+    "egg-bin": "^3.2.1",
+    "egg-ci": "^1.5.0",
+    "egg-mock": "^3.2.0",
+    "eslint": "^3.18.0",
+    "eslint-config-egg": "^3.2.0",
+    "supertest": "^3.0.0",
+    "webstorm-disable-index": "^1.1.2"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "EGG_SERVER_ENV=local egg-bin dev",
+    "test": "npm run lint -- --fix && npm run test-local",
+    "test-local": "egg-bin test",
+    "cov": "egg-bin cov",
+    "lint": "eslint .",
+    "ci": "npm run lint && npm run cov",
+    "autod": "autod"
+  },
+  "ci": {
+    "version": "6"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "crystalGS",
+  "license": "MIT"
+}
