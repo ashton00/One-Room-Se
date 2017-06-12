@@ -10,7 +10,12 @@ exports.mysql = {
 
 exports.session = true;
 
+exports.sessionRedis = {
+  enable: true,
+  package: 'egg-session-redis',
+};
+
 exports.redis = {
-    enbale: true,
-    package: 'egg-redis'
-}
+  enable: true,
+  package: 'egg-redis',
+};

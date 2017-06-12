@@ -4,11 +4,13 @@ const ms     = require('ms');
 module.exports = app => {
     class UserController extends app.Controller {
 
-
-
         * login () {
             const {ctx, service} = this;
-
+            // app.redis.set('foo', 'bar')
+            //
+            // console.log(app.redis.get("foo").then((err) => {
+            //     console.log(err);
+            // }));
             const [phone,
                    password,
                    rememberMe] = [
@@ -16,9 +18,6 @@ module.exports = app => {
                        ctx.helper.sha1(ctx.request.body.password, this.config.salt), // 对 Password 进行 Sha1 加密
                        ctx.request.body.rememberMe
                    ];
-            ctx.helper.debug("账号密码")
-            ctx.helper.debug(phone, password);
-
             // 登录接口
             const userInfo = yield service.user.login(phone, password);
 

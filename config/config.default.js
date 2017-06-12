@@ -10,15 +10,30 @@ module.exports = appInfo => {
                     ],
 
         // redis-cli -h 127.0.0.1 -p 6379 -a 123456
-        redis: {
-            client: { // 需要启动redis-server
-                cluster: false,
+        //
+
+        redis : {
+            default: {
                 host: '127.0.0.1',
                 port: '6379',
-                // family: 'user',
                 password: '123456',
                 db: '1'
-            }
+            },
+            client: {
+                session: {
+                    key: 'YISHI_SESS',
+                    maxAge: 3 * 3600 * 1000, // 3个小时
+                    httpOnly: true,
+                    encrypt: false, // 是否加密
+                },
+                cache: {},
+            },
+            agent: true,
+            app: true,
+          },
+
+        sessionRedis : {
+        //   name: 'session', // specific `session` as the session store
         },
 
         salt: 'ThisIsYiShiSha1Salt',
@@ -49,12 +64,7 @@ module.exports = appInfo => {
           coreLogger: {},
       },
 
-        session : {
-            key: 'YISHI_SESS',
-            maxAge: 3 * 3600 * 1000, // 3个小时
-            httpOnly: true,
-            encrypt: false, // 是否加密
-        },
+
 
         mysql: {
           clients: {
