@@ -1,15 +1,10 @@
 
-const crypto = require('crypto');
 const ms     = require('ms');
 
 module.exports = app => {
     class UserController extends app.Controller {
 
-        sha1(password) {
-            const salt = 'ThisIsYiShiSha1Salt';
-            const addSaltResult = password + salt;
-            return crypto.createHash('sha1').update(addSaltResult, 'utf8').digest('hex');
-        }
+
 
         * login () {
             const {ctx, service} = this;
@@ -18,7 +13,7 @@ module.exports = app => {
                    password,
                    rememberMe] = [
                        ctx.request.body.phone,
-                       this.sha1(ctx.request.body.password), // 对 Password 进行 Sha1 加密
+                       ctx.helper.sha1(ctx.request.body.password, this.config.salt), // 对 Password 进行 Sha1 加密
                        ctx.request.body.rememberMe
                    ];
             ctx.helper.debug("账号密码")
@@ -50,7 +45,7 @@ module.exports = app => {
         * register() {
             const {ctx, service}    = this;
             const [phone, password] = [ctx.request.body.phone,
-                                       this.sha1(ctx.request.body.password)];
+                                       ctx.helper.sha1(ctx.request.body.password, this.config.salt)];
 
             try {
                 const addUser = yield service.user.register(phone, password);
@@ -62,6 +57,28 @@ module.exports = app => {
             }
         }
 
+        * changePassword() {
+            const {ctx, service} = this;
+            const [phone, password] = [ctx.request.body.phone,
+                                       ctx.helper.sha1(ctx.request.body.password, this.config.salt)];
+            try {
+                const Users = yield service.user.findByPhone(phone);
+                const UserId = Users[0].UserId;
+                const changeUserPassword = yield service.user.updatePswByUserId(password, UserId);
+                if(changeUserPassword) {
+                    ctx.helper.sendData(200, null, '修改密码成功')
+                    return ;
+                }
+
+                return ctx.helper.handleError(400, null, '修改密码失败');
+
+            } catch(err) {
+                ctx.helper.sendData(400, null, "用户不存在")
+                ctx.helper.recordErr(err);
+                return ;
+            }
+
+        }
 
     }
     return UserController;

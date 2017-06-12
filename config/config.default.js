@@ -21,6 +21,8 @@ module.exports = appInfo => {
             }
         },
 
+        salt: 'ThisIsYiShiSha1Salt',
+
         security:{
             csrf: {
                 enable: false,

@@ -86,3 +86,27 @@ POST /api/login
   "msg": "登录失败，用户未注册"
 }
 ```
+
+### 忘记密码
+
+> 暂时还没有介入手机短信服务，所以暂时不需要Code字段，但请预留该字段
+
+```
+POST /api/users/forgetpsw
+```
+
+|字段|类型|
+|--|--|
+|phone|Number|
+|password|String|
+|Code|Number|
+
+成功返回
+
+```
+{
+  "time": "2017-06-12T02:09:16.777Z",
+  "data": null,
+  "msg": "修改密码成功"
+}
+```

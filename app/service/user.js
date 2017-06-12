@@ -59,5 +59,23 @@ module.exports = app => {
             return result;
         }
 
+        *updatePswByUserId(psw, userId) {
+            const query = {
+                "Password" : psw
+            }
+            const result  = yield db.update('user', query, {
+                where: {
+                    "UserId": userId
+                },
+                columns: ["Password"]
+
+            });
+
+            console.log(result);
+            const updateSuccess = result.affectedRows === 1;
+
+            return updateSuccess;
+        }
+
     }
 }
