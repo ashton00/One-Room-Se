@@ -54,8 +54,6 @@ module.exports = app => {
                 phone: phone,
                 password: password
             });
-            if(result.affectedRows === 0)
-                throw Error('注册中断：插入数据失败');
             return result;
         }
 
@@ -71,8 +69,7 @@ module.exports = app => {
 
             });
 
-            console.log(result);
-            const updateSuccess = result.affectedRows === 1;
+            const isUpdateSuccess = result.affectedRows === 1;
 
             return updateSuccess;
         }

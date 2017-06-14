@@ -22,10 +22,15 @@ module.exports = app => {
             const userInfo = yield service.user.login(phone, password);
 
             if(userInfo.length != 0) {
-                ctx.session.user = userInfo;
-                if(rememberMe != void 0 && rememberMe) {
-                    this.session.maxAge = ms('7d'); // 这一周都记住我
-                }
+                const type   = "user-",
+                      userId = userInfo[0].UserId;
+
+                // 缓存到redis
+                app.redis.set(type+userId, userInfo[0]);
+
+                // if(rememberMe != void 0 && rememberMe) {
+                //     this.session.maxAge = ms('7d'); // 这一周都记住我
+                // }
                 ctx.helper.sendData(200, userInfo, '登录成功');
                 return;
             } else {
@@ -48,9 +53,12 @@ module.exports = app => {
 
             try {
                 const addUser = yield service.user.register(phone, password);
+                if(addUser.affectedRows == 0) {
+                    ctx.helper.handleError(400, null, '注册用户失败');
+                    return ;
+                }
                 // 返回用户数据
-                const data = {};
-                ctx.helper.sendData(200, data, '注册成功')
+                ctx.helper.sendData(200, null, '注册成功')
             } catch(err) {
                 ctx.helper.handleError(400, null, '当前用户已经存在');
             }
@@ -61,9 +69,7 @@ module.exports = app => {
             const [phone, password] = [ctx.request.body.phone,
                                        ctx.helper.sha1(ctx.request.body.password, this.config.salt)];
             try {
-                const Users = yield service.user.findByPhone(phone);
-                const UserId = Users[0].UserId;
-                const changeUserPassword = yield service.user.updatePswByUserId(password, UserId);
+                const changeUserPassword = yield service.user.updatePswByUserId(password, phone);
                 if(changeUserPassword) {
                     ctx.helper.sendData(200, null, '修改密码成功')
                     return ;
@@ -72,7 +78,7 @@ module.exports = app => {
                 return ctx.helper.handleError(400, null, '修改密码失败');
 
             } catch(err) {
-                ctx.helper.sendData(400, null, "用户不存在")
+                ctx.helper.handleError(400, null, "用户不存在")
                 ctx.helper.recordErr(err);
                 return ;
             }
