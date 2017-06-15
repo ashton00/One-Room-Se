@@ -21,4 +21,5 @@ module.exports = app => {
    // 向导页
    require('./router/guide')(app);
    require('./router/merchant.js')(app);
+   require('./router/suggestion.js')(app);
 };

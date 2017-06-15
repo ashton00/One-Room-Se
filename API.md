@@ -231,3 +231,92 @@ POST /api/merchants/forgetpsw
     "msg": "修改密码成功"
 }
 ```
+
+
+## 三、提交建议
+
+### 创建一个建议
+
+```
+POST /api/suggestions
+```
+
+|字段|类型|
+|--|--|
+|phone|Number|
+|name|String|
+|description|text|
+
+
+成功返回
+
+```
+{
+    "time": "2017-06-15T15:38:02.196Z",
+    "data": null,
+    "msg": "提交建议成功"
+}
+```
+
+
+### 获取用户的建议
+
+```
+GET /api/suggestions?phone=12345678
+```
+
+成功返回
+
+```
+{
+    "time": "2017-06-15T15:40:19.435Z",
+    "data": [
+        {
+            "SuggestionId": 1,
+            "Phone": 18819253689,
+            "name": "GS",
+            "Description": null,
+            "isReply": 0,
+            "isSolve": 0,
+            "Solution": null,
+            "Reply": null
+        },
+        {
+            "SuggestionId": 2,
+            "Phone": 18819253689,
+            "name": "GS",
+            "Description": null,
+            "isReply": 0,
+            "isSolve": 0,
+            "Solution": null,
+            "Reply": null
+        }
+    ],
+    "msg": "获取用户建议信息成功"
+}
+```
+
+### 获取单条建议
+
+```
+GET /api/suggestions/:id
+```
+
+成功返回
+
+```
+{
+    "time": "2017-06-15T15:42:42.139Z",
+    "data": {
+        "SuggestionId": 1,
+        "Phone": 18819253689,
+        "name": "GS",
+        "Description": null,
+        "isReply": 0,
+        "isSolve": 0,
+        "Solution": null,
+        "Reply": null
+    },
+    "msg": "获取建议信息成功"
+}
+```
