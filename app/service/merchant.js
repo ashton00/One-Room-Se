@@ -5,7 +5,7 @@
 +-------------+------------------+------+-----+-------------------+----------------+
 | MerchantId  | int(11)          | NO   | PRI | NULL              | auto_increment |
 | Account     | varchar(64)      | YES  |     | NULL              |                |
-| Phone       | int(11)          | NO   | UNI | NULL              |                |
+| Phone       | bigint(20)       | NO   | UNI | NULL              |                |
 | Email       | varchar(64)      | YES  |     | NULL              |                |
 | Level       | int(11)          | YES  |     | NULL              |                |
 | Points      | int(10) unsigned | YES  |     | NULL              |                |
@@ -21,6 +21,7 @@
 | isDelete    | tinyint(1)       | YES  |     | 0                 |                |
 | isValid     | tinyint(1)       | YES  |     | 0                 |                |
 +-------------+------------------+------+-----+-------------------+----------------+
+
  */
 module.exports = app => {
     const db = app.mysql.get('Yishi');
@@ -42,16 +43,16 @@ module.exports = app => {
                 where: {
                     phone: phone,
                 },
-                columns:['MerchantId','Account','Phone'];
+                columns:['MerchantId','Account','Phone']
             });
             return merchant;
         }
 
-        * register(phone, password, name, email, QQorWechat, jobTitle, company, address, zipCode, description) {
-            const result = yield, db.insert('merchant', {
+        * register(phone, password, realname, email, QQorWechat, jobTitle, company, address, zipCode, description) {
+            const result = yield db.insert('merchant', {
                 "phone" : phone,
                 "password": password,
-                "name" :  name,
+                "realname" :  realname,
                 "email" : email,
                 "QQorWechat" : QQorWechat,
                 "jobTitle" : jobTitle,
@@ -59,7 +60,7 @@ module.exports = app => {
                 "address" : address,
                 "zipCode" : zipCode,
                 "description" : description
-            })
+            });
 
             return result;
         }

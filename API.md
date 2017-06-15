@@ -110,3 +110,124 @@ POST /api/users/forgetpsw
   "msg": "修改密码成功"
 }
 ```
+
+## 二、商户
+
+### 注册
+
+```
+POST /api/merchants
+```
+
+|字段|类型|
+|--|--|
+|phone|Number|
+|password|String|
+|realname|String|
+|email|String|
+|QQorWechat|String|
+|jobTitle|String|
+|company|String|
+|address|String|
+|zipCode|Number|
+|description|Text|
+
+成功返回
+
+```
+{
+    "time": "2017-06-15T08:48:28.708Z",
+    "data": null,
+    "msg": "注册成功"
+}
+```
+
+
+
+失败返回
+
+```
+{
+    "time": "2017-06-15T08:51:58.663Z",
+    "msg": "当前商户已经存在"
+}
+```
+
+### 登录
+
+```
+POST /api/merchants/login
+```
+
+|字段|类型|
+|--|--|
+|phone|Number|
+|password|String|
+
+成功返回
+
+```
+{
+    "time": "2017-06-15T08:52:58.268Z",
+    "data": [
+        {
+            "MerchantId": 1,
+            "Account": null,
+            "Phone": 18819253689,
+            "Email": "test@qq.com",
+            "Level": null,
+            "Points": null,
+            "CreateAt": "2017-06-15T08:48:28.000Z",
+            "QQorWechat": "123",
+            "Company": "no money company",
+            "Address": "sysu",
+            "Description": "test",
+            "JobTitle": "test",
+            "Realname": "GS",
+            "ZipCode": "510000"
+        }
+    ],
+    "msg": "登录成功"
+}
+```
+
+失败返回
+
+
+```
+{
+    "time": "2017-06-15T08:53:47.913Z",
+    "msg": "登录失败，商户未注册"
+}
+```
+
+
+```
+{
+    "time": "2017-06-15T08:54:08.220Z",
+    "msg": "登录失败，密码错误"
+}
+```
+
+### 修改密码
+
+|字段|类型|
+|--|--|
+|phone|Number|
+|password|String|
+
+> password是新密码
+
+```
+POST /api/merchants/forgetpsw
+```
+
+成功返回
+
+```
+{
+    "time": "2017-06-15T08:55:06.878Z",
+    "data": null,
+    "msg": "修改密码成功"
+}
+```

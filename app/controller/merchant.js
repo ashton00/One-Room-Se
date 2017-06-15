@@ -39,7 +39,7 @@ module.exports = app => {
 
             const [phone,
                    password,
-                   name,
+                   realname,
                    email,
                    QQorWechat,
                    jobTitle,
@@ -49,7 +49,7 @@ module.exports = app => {
                    description] = [
                        body.phone,
                        ctx.helper.sha1(body.password, this.config.salt),
-                       body.name,
+                       body.realname,
                        body.email,
                        body.QQorWechat,
                        body.jobTitle,
@@ -58,7 +58,7 @@ module.exports = app => {
                        body.zipCode,
                        body.description];
             try {
-                const addMerchant = yield service.merchant.register(phone, password, name, email, QQorWechat, jobTitle, company, address, zipCode, description);
+                const addMerchant = yield service.merchant.register(phone, password, realname, email, QQorWechat, jobTitle, company, address, zipCode, description);
 
                 if(addMerchant.affectedRows == 0) {
                     ctx.helper.handleError(400, null, '注册商户失败');

@@ -71,7 +71,7 @@ module.exports = app => {
 
             const isUpdateSuccess = result.affectedRows === 1;
 
-            return updateSuccess;
+            return isUpdateSuccess;
         }
 
     }

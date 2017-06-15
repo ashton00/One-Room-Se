@@ -20,4 +20,5 @@ module.exports = app => {
    require('./router/user')(app);
    // 向导页
    require('./router/guide')(app);
+   require('./router/merchant.js')(app);
 };
