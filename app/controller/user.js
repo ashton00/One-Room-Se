@@ -50,7 +50,7 @@ module.exports = app => {
             const {ctx, service}    = this;
             const [phone, password] = [ctx.request.body.phone,
                                        ctx.helper.sha1(ctx.request.body.password, this.config.salt)];
-
+            console.log(ctx.request.body);
             try {
                 const addUser = yield service.user.register(phone, password);
                 if(addUser.affectedRows == 0) {
